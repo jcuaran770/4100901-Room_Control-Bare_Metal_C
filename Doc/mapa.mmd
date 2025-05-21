@@ -1,0 +1,24 @@
+graph TD
+    A[Inicio] --> B[Activar SysTick]
+    B --> C[Activar Botón PC13]
+    C --> D[Configurar PWM]
+    D --> E[Configurar UART2]
+    E --> F{MAIN }
+    F --> G[Leer estado botón]
+    G -->|Presionado| H[Encender LED PA7]
+    H --> I[Iniciar temporizador 3s]
+    I --> J[Generar PWM en PA6]
+    J --> K[Enviar mensaje UART]
+    K --> L{LED encendido?}
+    L -->|Sí| M[Revisar temporizador]
+    M -->|Tiempo cumplido| N[Apagar LED]
+    L -->|No| O[Verificar UART]
+    O --> P{Carácter recibido?}
+    P -->|Sí| Q[Procesar comando]
+    Q -->|h/H| R[PWM 100%]
+    Q -->|l/L| S[PWM 0%]
+    Q -->|t/T| T[Toggle LED]
+    Q -->|Otro| U[Error comando]
+    P -->|No| F
+    N --> F
+    

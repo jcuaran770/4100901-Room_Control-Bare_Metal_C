@@ -7,6 +7,7 @@
 ** Nombre:** Herna Jair Telpiz_1193069571
 
 # Adcecuaciones que se realizaron
+# link:  https://youtube.com/shorts/oTb5gT1Y4ME?si=bo3Vw6Cwo_LKTjxN
 
 **¿Qué hace este sistema?**
 Este proyecto controla luces LED en una habitación usando un microcontrolador STM32. 
@@ -172,27 +173,5 @@ El sistema opera a 4 MHz usando el HSI (Oscilador Interno de Alta Velocidad) com
             *AF: 7 (USART2_RX)
 
 # Diagrama de funcionamiento en mermaid.live
-graph TD
-    A[Inicio] --> B[Activar SysTick]
-    B --> C[Activar Botón PC13]
-    C --> D[Configurar PWM]
-    D --> E[Configurar UART2]
-    E --> F{MAIN (Bucle principal)}
-    
-    F --> G[Leer estado botón]
-    G -->|Presionado| H[Encender LED PA7]
-    H --> I[Iniciar temporizador 3s]
-    I --> J[Generar PWM en PA6]
-    J --> K[Enviar mensaje UART]
-    K --> L{LED encendido?}
-    L -->|Sí| M[Revisar temporizador]
-    M -->|Tiempo cumplido| N[Apagar LED]
-    L -->|No| O[Verificar UART]
-    O --> P{Carácter recibido?}
-    P -->|Sí| Q[Procesar comando]
-    Q -->|h/H| R[PWM 100%]
-    Q -->|l/L| S[PWM 0%]
-    Q -->|t/T| T[Toggle LED]
-    Q -->|Otro| U[Error comando]
-    P -->|No| F
-    N --> F
+
+![HW Diagram](assets/Diagrama_Funcionamiento.png)
