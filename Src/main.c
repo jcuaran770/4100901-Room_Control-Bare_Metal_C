@@ -29,33 +29,36 @@ void heartbeat_led_toggle(void)
 int main(void)
 {
     // Inicialización de SysTick
-    systick_init_1ms(); // Utiliza SYSCLK_FREQ_HZ (ej. 4MHz) de rcc.h
-
-    // LED Heartbeat
-    gpio_setup_pin(GPIOA, HEARTBEAT_LED_PIN, GPIO_MODE_OUTPUT, 0);
-
-    // LED Externo ON/OFF
+    systick_init_1ms();
+    
+    // Configuración de LEDs
+    gpio_setup_pin(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_MODE_OUTPUT, 0);
     gpio_setup_pin(GPIOA, EXTERNAL_LED_ONOFF_PIN, GPIO_MODE_OUTPUT, 0);
-
-    // Botón B1
+    
+    // Configuración del botón
     gpio_setup_pin(GPIOC, 13, GPIO_MODE_INPUT, 0);
     nvic_exti_pc13_button_enable();
-
-    // USART2
+    
+    // Configuración UART
     uart2_init(115200);
     nvic_usart2_irq_enable();
-
-    // TIM3 Canal 1 para PWM
-    tim3_ch1_pwm_init(1000); // ej. 1000 Hz
-    tim3_ch1_pwm_set_duty_cycle(70); // ej. 50%
-
-    // Inicialización de la Lógica de la Aplicación (room_control)
+    
+    // Configuración PWM
+    tim3_ch1_pwm_init(1000); // Frecuencia de 1kHz
+    tim3_ch1_pwm_set_duty_cycle(70); // Duty cycle inicial 70%
+    
+    // Inicialización de la aplicación
     room_control_app_init();
-
-    // Mensaje de bienvenida o estado inicial (puede estar en room_control_app_init o aquí)
-    uart2_send_string("\r\nSistema Inicializado. Esperando eventos...\r\n");
+    
+    // Mensaje inicial
+    uart2_send_string("\r\nSistema de Control de Habitacion - Listo\r\n");
+    uart2_send_string("Heartbeat LED funcionando\r\n");
+    uart2_send_string("PWM inicializado al 70%\r\n");
+    uart2_send_string("Esperando eventos...\r\n> ");
+    
+    // Bucle principal
     while (1) {
-        heartbeat_led_toggle();
+    heartbeat_led_toggle();
+    room_control_on_systick(); // Cambiado de room_control_on_systick_tick()
     }
 }
-

@@ -8,7 +8,20 @@
 #ifndef ROOM_CONTROL_H
 #define ROOM_CONTROL_H
 
+#define HEARTBEAT_LED_PORT     GPIOA
+#define HEARTBEAT_LED_PIN      5       // LD2 en la placa NUCLEO-L476RG
+#define EXTERNAL_LED_ONOFF_PIN 7       // PA7 para LED ON/OFF
+#define EXTERNAL_LED_PWM_PIN   6       // PA6 para LED PWM (TIM3_CH1)
+
 #include <stdint.h>
+
+void room_control_on_systick_tick(void);
+/**
+ * @brief Función a ser llamada por EXTI15_10_IRQHandler cuando se detecta
+ *        la pulsación del botón B1.
+ * @note  Esta función debe ser llamada desde el manejador de interrupción
+ *        EXTI15_10_IRQHandler.
+ */
 
 /**
  * @brief Función a ser llamada por EXTI15_10_IRQHandler cuando se detecta

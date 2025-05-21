@@ -19,8 +19,8 @@
 
 void uart2_init(uint32_t baud_rate)
 {
-    // 1. Configurar pines PA2 (TX) y PA3 (RX) como Alternate Function (AF7)
-    gpio_setup_pin(GPIOA, 2, GPIO_MODE_AF, 7);
+    // 1. Configurar pines PA2 (TX) y PA3 (RX) como Alternate Function (AF7) inicializando los pines
+    gpio_setup_pin(GPIOA, 2, GPIO_MODE_AF, 7); //uso alternate funcion, modo a usar en este caso 7
     gpio_setup_pin(GPIOA, 3, GPIO_MODE_AF, 7);
 
     // 2. Habilitar el reloj para USART2
@@ -38,8 +38,13 @@ void uart2_init(uint32_t baud_rate)
     // Habilitar Transmisor (TE) y Receptor (RE)
     USART2->CR1 |= (0x01 << 2 | 0x01 << 3);
 
+    // Habilitar interrupción de recepción
+    USART2->CR1 |= (0x01 << 5); // RXNEIE
+
     // Finalmente, habilitar USART (UE bit en CR1)
     USART2->CR1 |= 0x01 << 0;
+
+    
 }
 
 void uart2_send_char(char c)
@@ -71,7 +76,8 @@ void USART2_IRQHandler(void)
     if (USART2->ISR & USART_ISR_RXNE) {
         // Leer el dato del RDR. Esta acción usualmente limpia el flag RXNE.
         char received_char = (char)(USART2->RDR & 0xFF);
-        uart2_send_char(received_char); // Eco del carácter recibido 
+        room_control_on_uart_receive(received_char);
+        uart2_send_char(received_char); // Eco del carácter recibido
         // Procesar el carácter recibido.
     }
 }

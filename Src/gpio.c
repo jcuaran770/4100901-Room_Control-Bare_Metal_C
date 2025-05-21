@@ -8,6 +8,7 @@
 #include "gpio.h"
 #include "rcc.h"
 #include "nvic.h"
+#include "room_control.h" // Para room_control_on_button_press
 
 void gpio_setup_pin(GPIO_TypeDef *gpio_port, uint8_t pin_number,
                     uint8_t mode, uint8_t alternate_function)
@@ -24,10 +25,13 @@ void gpio_setup_pin(GPIO_TypeDef *gpio_port, uint8_t pin_number,
     // 3. Configurar la función alternativa
     //    Solo si es modo AF. Cada pin usa 4 bits.
     //    Pines 0-7 usan AFRL, pines 8-15 usan AFRH.
+    // manual pag 308 afrl pines del 0 al 7
+    // manual pag 308 afrh pines del 8 al 15
+    //esper la funcion alternativa es un valor entre 0 y 15
     if (mode == GPIO_MODE_AF) {
         uint32_t temp_af_val = alternate_function;
         if (pin_number < 8) { // AFRL
-            gpio_port->AFRL &= ~(0x0FU << (pin_number * 4));          // Limpiar los 4 bits del pin
+            gpio_port->AFRL &= ~(0x0FU << (pin_number * 4));          // Limpiar los 4 bits del pin mapea el multiplexor para seleccionar la función alternativa
             gpio_port->AFRL |= (temp_af_val << (pin_number * 4)); // Establecer AF
         } else { // AFRH
             gpio_port->AFRH &= ~(0x0FU << ((pin_number - 8) * 4));       // Limpiar los 4 bits del pin
@@ -75,6 +79,7 @@ void EXTI15_10_IRQHandler(void) {
         // 2. Limpiar el flag de pendiente de la interrupción (escribiendo '1')
         EXTI->PR1 |= (1U << 13);
         // 3. Procesar boton presionado
+        room_control_on_button_press();
     }
 }
 
