@@ -41,7 +41,7 @@ Responde a mensajes que le envías mediante (uart2) usando la terminal serial
 *Frecuencia del reloj:
 El sistema opera a 4 MHz usando el HSI (Oscilador Interno de Alta Velocidad) como fuente de reloj principal.
 
-*** SysTick ***
+**SysTick**
 
 * Características:
 
