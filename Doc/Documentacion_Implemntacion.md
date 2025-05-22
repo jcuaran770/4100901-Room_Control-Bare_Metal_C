@@ -6,7 +6,7 @@
 **Curso:** Estructuras Computacionales (4100901)
 **Nombre:** Hernan Jair Telpiz_1193069571
 
-# Adcecuaciones que se realizaron
+# Adecuaciones que se realizaron
 # link:  https://youtube.com/shorts/oTb5gT1Y4ME?si=bo3Vw6Cwo_LKTjxN
 
 **¿Qué hace este sistema?**
@@ -21,7 +21,7 @@ Regula el brillo de el led en el pin (PA6)  usando el pwm
 Responde a mensajes que le envías mediante (uart2) usando la terminal serial 
 
 **¿Qué se añadió al código base?**
-**Transformamos un esqueleto básico en un sistema completo con:**
+**Se uso algunas funciones para el siguiente funcionamiento:**
 
 1. Lógica para manejar pulsaciones de botón con anti-rebote:  Implementamos un sistema que detecta pulsaciones válidas ignorando fluctuaciones eléctricas (rebotes) mediante un delay de 200ms entre pulsaciones.
 
@@ -39,25 +39,25 @@ Responde a mensajes que le envías mediante (uart2) usando la terminal serial
     *Rango de duty cycle de 0-100%
 **Configuracion Relog de sistema**
 *Frecuencia del reloj:
-El sistema opera a 4 MHz usando el HSI (Oscilador Interno de Alta Velocidad) como fuente de reloj principal.
+El sistema opera a 4 MHz usando el HSI como fuente de reloj principal.
 
 **SysTick**
 
 * Características:
 
-    * Acceso directo a registros (no usa HAL)
+    * Acceso directo a registros 
 
     * Frecuencia de interrupción: 1 kHz (cada 1 ms)
 
-    * Resolución temporal: 1 ms (mínima unidad de tiempo)
+    * Resolución temporal: 1 ms 
 
     * Uso:
 
-        *Base de tiempo para el LED heartbeat (500 ms)
+        * Base de tiempo para el LED heartbeat (500 ms)
 
-        *Temporizador de 3 segundos para el LED ON/OFF
+        * Temporizador de 3 segundos para el LED ON/OFF
 
-        *Medición de intervalos para anti-rebote
+        * Medición de intervalos para anti-rebote
 ***PWM**
 * Especificaciones:
 
